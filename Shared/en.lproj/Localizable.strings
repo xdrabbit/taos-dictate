@@ -63,3 +63,6 @@
 "keyboard.nothing_yet" = "Nothing dictated yet. Tap Dictate to open TAOS.";
 "keyboard.need_full_access" = "Turn on Allow Full Access for TAOS to insert your dictation.";
 "keyboard.open_manually" = "Open the TAOS Dictate app to dictate, then come back.";
+"signin.rate_limited" = "Too many codes requested. Wait an hour, then send one more.";
+"signin.no_account" = "There's no TAOS account with that email. Use the email you sign in to taoslite.com with.";
+"signin.expired" = "That code has expired or was already used (tapping the link in the email uses it up). Request a new one.";

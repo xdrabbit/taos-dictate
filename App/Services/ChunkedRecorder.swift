@@ -37,7 +37,7 @@ final class ChunkedRecorder: NSObject, AVAudioRecorderDelegate {
 
     func start() throws {
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(.record, mode: .spokenAudio)
+        try session.setCategory(.record, mode: .default)
         try session.setActive(true)
         NotificationCenter.default.addObserver(self, selector: #selector(interrupted(_:)),
                                                name: AVAudioSession.interruptionNotification, object: session)

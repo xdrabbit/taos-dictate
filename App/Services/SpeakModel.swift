@@ -36,6 +36,16 @@ final class SpeakModel: ObservableObject {
         self.onSignedOut = onSignedOut
         recorder.onChunk = { [weak self] chunk in self?.uploadEarlier(chunk) }
         recorder.onAutoStop = { [weak self] last in self?.finish(last: last) }
+        #if DEBUG
+        // Simulator self-test: launch with -micSelfTest to start and stop the recorder once.
+        if ProcessInfo.processInfo.arguments.contains("-micSelfTest") {
+            Task { @MainActor in
+                do { try recorder.start(); try await Task.sleep(for: .seconds(2))
+                     let c = recorder.stop(); print("[taos-mic] self-test ok ms=\(c?.ms ?? -1)") }
+                catch { print("[taos-mic] self-test failed: \(error)") }
+            }
+        }
+        #endif
     }
 
     // MARK: Mic
@@ -62,6 +72,7 @@ final class SpeakModel: ObservableObject {
             UIApplication.shared.isIdleTimerDisabled = true
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         } catch {
+            print("[taos-mic] start failed: \(error)")
             self.error = L("error.mic_failed")
         }
     }

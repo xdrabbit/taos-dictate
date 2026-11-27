@@ -1,0 +1,10 @@
+// Shared settings for both targets. Real (production) values live here.
+// To override on one Mac (free team, test IDs, a preview backend), create
+// Config/Local.xcconfig — it is gitignored and included last, so it wins.
+
+DEVELOPMENT_TEAM =
+TAOS_BUNDLE_ID = com.taoslite.dictate
+TAOS_APP_GROUP = group.com.taoslite.dictate
+TAOS_DICTATE_URL = https:/$()/taoslite.com/api/dictate
+
+#include? "Local.xcconfig"
