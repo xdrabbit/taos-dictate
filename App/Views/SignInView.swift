@@ -1,4 +1,5 @@
 import SwiftUI
+import Auth
 
 struct SignInView: View {
     @EnvironmentObject private var auth: AuthManager
@@ -56,7 +57,7 @@ struct SignInView: View {
             try await auth.sendCode(to: cleanEmail)
             codeSent = true
         } catch {
-            self.error = L("signin.send_failed")
+            self.error = Self.message(for: error, fallback: "signin.send_failed")
         }
     }
 
@@ -66,7 +67,18 @@ struct SignInView: View {
         do {
             try await auth.verify(email: cleanEmail, code: code.trimmingCharacters(in: .whitespaces))
         } catch {
-            self.error = L("signin.bad_code")
+            self.error = Self.message(for: error, fallback: "signin.bad_code")
+        }
+    }
+
+    /// Supabase's error codes, turned into something the user can act on.
+    private static func message(for error: Error, fallback: String) -> String {
+        guard let auth = error as? AuthError else { return L(fallback) }
+        switch auth.errorCode {
+        case .overEmailSendRateLimit: return L("signin.rate_limited")
+        case .otpDisabled, .signupDisabled: return L("signin.no_account")
+        case .otpExpired: return L("signin.expired")
+        default: return L(fallback)
         }
     }
 }

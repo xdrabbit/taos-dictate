@@ -63,3 +63,6 @@
 "keyboard.nothing_yet" = "Aún no hay dictado. Toca Dictar para abrir TAOS."; // pendiente de revisión por Liz
 "keyboard.need_full_access" = "Activa Permitir acceso total para TAOS para insertar tu dictado."; // pendiente de revisión por Liz
 "keyboard.open_manually" = "Abre la app TAOS Dictate para dictar y luego vuelve."; // pendiente de revisión por Liz
+"signin.rate_limited" = "Se pidieron demasiados códigos. Espera una hora y pide uno más."; // pendiente de revisión por Liz
+"signin.no_account" = "No hay una cuenta de TAOS con ese correo. Usa el correo con el que entras a taoslite.com."; // pendiente de revisión por Liz
+"signin.expired" = "Ese código caducó o ya se usó (tocar el enlace del correo lo gasta). Pide uno nuevo."; // pendiente de revisión por Liz

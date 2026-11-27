@@ -2,8 +2,13 @@ import Foundation
 
 /// Values shared by the app and the keyboard extension.
 enum TaosConfig {
-    static let appGroup = "group.com.taoslite.dictate"
-    static let dictateURL = URL(string: "https://taoslite.com/api/dictate")!
+    /// Set once in project.yml (TAOS_APP_GROUP) and read from Info.plist, so the
+    /// entitlements and the code can't disagree.
+    static let appGroup = Bundle.main.object(forInfoDictionaryKey: "TaosAppGroup") as? String
+        ?? "group.com.taoslite.dictate"
+    /// From project.yml (TAOS_DICTATE_URL) via Info.plist, so a test build can use a preview deployment.
+    static let dictateURL = (Bundle.main.object(forInfoDictionaryKey: "TaosDictateURL") as? String)
+        .flatMap { $0.isEmpty ? nil : URL(string: $0) } ?? URL(string: "https://taoslite.com/api/dictate")!
     /// Public by design (same project as taoslite.com, lib/authServer.ts in taos-lite).
     static let supabaseURL = URL(string: "https://duqkmuaceklnfgvoufrz.supabase.co")!
     static let supabaseKey = "sb_publishable_LBhw7XTAhPWjNhbmjcf3uA_r_tbaALD"

@@ -12,8 +12,9 @@ open TaosDictate.xcodeproj
 ```
 
 - Targets: `TaosDictate` (app, `com.taoslite.dictate`) and `TaosKeyboard` (keyboard extension, `com.taoslite.dictate.keyboard`), sharing App Group `group.com.taoslite.dictate`.
-- **Signing:** `DEVELOPMENT_TEAM` is blank. Pick the team in Xcode › Signing & Capabilities for both targets (or set it in `project.yml`). Automatic signing registers the bundle IDs and App Group.
+- **Team, bundle ID, App Group, backend URL** live in `Config/Base.xcconfig` (real values; team blank). Override them on one Mac in `Config/Local.xcconfig`, which is gitignored and wins. Ada uses it for the free Personal Team (`.dev.free` IDs, so the real IDs stay unclaimed for the paid team) and the taos-lite PR #145 preview backend. When the paid account is active: set `DEVELOPMENT_TEAM` in `Base.xcconfig`, delete `Local.xcconfig`, run `xcodegen generate`.
 - Simulator layout check without signing in: run with the launch argument `-uiPreview` (DEBUG builds only).
+- Mic self-test (DEBUG): launch with `-micSelfTest`; it records 2 s and prints `[taos-mic] …` to the console.
 
 ## Layout
 

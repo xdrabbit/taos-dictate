@@ -38,6 +38,10 @@
 	<string>1</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>TAOS Dictate records your voice so it can turn what you say into clean text.</string>
+	<key>TaosAppGroup</key>
+	<string>$(TAOS_APP_GROUP)</string>
+	<key>TaosDictateURL</key>
+	<string>$(TAOS_DICTATE_URL)</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>
