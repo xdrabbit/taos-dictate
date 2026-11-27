@@ -55,6 +55,8 @@ targets:
         CFBundleLocalizations: [en, es]
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        # Keeps recording for the TAOS keyboard after the user goes back to their chat.
+        UIBackgroundModes: [audio]
         NSMicrophoneUsageDescription: "TAOS Dictate records your voice so it can turn what you say into clean text."
         CFBundleURLTypes:
           - CFBundleURLName: com.taoslite.dictate

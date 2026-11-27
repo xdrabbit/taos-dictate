@@ -42,6 +42,10 @@
 	<string>$(TAOS_APP_GROUP)</string>
 	<key>TaosDictateURL</key>
 	<string>$(TAOS_DICTATE_URL)</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>

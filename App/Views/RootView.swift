@@ -4,11 +4,13 @@ struct RootView: View {
     @ObservedObject var auth: AuthManager
     @StateObject private var speak: SpeakModel
     @State private var tab: String = Prefs.tab
+    @ObservedObject private var session = KeyboardSession.shared
 
     init(auth: AuthManager) {
         self.auth = auth
         let api = DictateAPI(tokens: auth.tokenProvider)
         _speak = StateObject(wrappedValue: SpeakModel(api: api, onSignedOut: { [weak auth] in auth?.sessionRejected() }))
+        KeyboardSession.shared.api = api
     }
 
     var body: some View {
@@ -24,7 +26,8 @@ struct RootView: View {
                 .tag("settings")
         }
         .onChange(of: tab) { _, new in if new != "settings" { Prefs.tab = new } }
-        // The keyboard's "open TAOS" button lands here.
         .onOpenURL { url in if url.host == "speak" { tab = "speak" } }
+        .safeAreaInset(edge: .top) { if session.isOpen { SessionBanner(session: session) } }
+        .fullScreenCover(isPresented: $session.showGuide) { SessionGuideView(session: session) }
     }
 }

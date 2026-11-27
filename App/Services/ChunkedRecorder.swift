@@ -5,7 +5,7 @@ import AVFoundation
 /// 32 kbps mono ≈ 240 KB a minute; a 4.5-minute chunk ≈ 1.1 MB.
 @MainActor
 final class ChunkedRecorder: NSObject, AVAudioRecorderDelegate {
-    struct Chunk { let index: Int; let url: URL; let ms: Int }
+    typealias Chunk = AudioChunk
 
     static let chunkSeconds: TimeInterval = 270      // 4.5 min, as the web screen
     static let maxSeconds: TimeInterval = 600        // 10:00 hard stop

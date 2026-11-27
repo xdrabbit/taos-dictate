@@ -26,6 +26,11 @@ struct TaosDictateApp: App {
             }
             .environmentObject(auth)
             .tint(Color.taosAccent)
+            // The TAOS keyboard's mic opens taosdictate://session. Handled here, not in
+            // RootView, so a cold launch (still restoring sign-in) isn't lost.
+            .onOpenURL { url in
+                if url.host == "session" { KeyboardSession.shared.handleOpenFromKeyboard() }
+            }
         }
     }
 }
