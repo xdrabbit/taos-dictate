@@ -10,22 +10,29 @@
 		066EAD8EC8FECF636BBBD44A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5318925819282909AEF1546 /* Localizable.strings */; };
 		0CF05E3A55A627CD503A1D70 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011E9F30A0F3B80F8418793 /* KeyboardViewController.swift */; };
 		0FDFC2C2185DE0637D61AAB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1186883962AF277028B228D1 /* InfoPlist.strings */; };
+		109FF1EF2BA4BAEB42FC961E /* SessionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4665E6605AB286FAAEA3449A /* SessionViews.swift */; };
 		16211FA13AB911C02035716C /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67111C3D5AAE96BB8EECD55 /* Shared.swift */; };
 		320FBD7E7B5FE77288A21B90 /* TaosDictateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7716EFAEF7E49775F997B1D2 /* TaosDictateApp.swift */; };
+		3C13AE7B698A6ACDB8493248 /* KeyboardPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CA641C9292A978F0DEA019 /* KeyboardPreview.swift */; };
 		4848EB6F9460178914DF7073 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30ADDA1B4BE956400728498B /* Assets.xcassets */; };
 		4EF51CEA465A8D6CABC885E0 /* SpeakModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85F64C97A50ECEC1FDB7976 /* SpeakModel.swift */; };
 		546BACCEAAC67FAE821A2A6F /* DictateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2381681BCBC3B390B797B58 /* DictateAPI.swift */; };
 		6062CFE6D33E84B8988B614F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C57D053F6A95367349D183 /* RootView.swift */; };
 		6C692EF4A6642DCD156B3489 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C4E92CED94F515B8C1B93E9A /* Auth */; };
 		7DC3803B3CA2BE482D8A34EB /* ChunkedRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7496C5B20C50859913B69C /* ChunkedRecorder.swift */; };
+		7E5A6F6AE7D1FD9BBAE666E2 /* KeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4E2D10A3FB11F7D1F45CB6 /* KeyboardBridge.swift */; };
 		8050451DEFAE1EA9B00C6E93 /* DecoderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDADBFDEF5289191958FBF6 /* DecoderView.swift */; };
 		9BCEB3F32DC6AEF8ACA93716 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67111C3D5AAE96BB8EECD55 /* Shared.swift */; };
 		BF19DBD94440F8E364D655D5 /* TaosKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6DA0836B90EF6FF93805E813 /* TaosKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C98A1DB7D5631EC55E90C5A7 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E10EA0AB6D4FE3CCFAB976 /* SignInView.swift */; };
 		CAE73F6DC234B84D5815A43A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F046514D032FAE77A2053 /* AuthManager.swift */; };
+		D1EE964C7F11724BD5EB6150 /* DictationJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426E47887057D0859F5EEBE8 /* DictationJob.swift */; };
 		E394A3FDF686F8DDA33C1406 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5318925819282909AEF1546 /* Localizable.strings */; };
 		E7B0BF870F71EDCE112BE2A6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109F6583ECDC526C5C9DAD42 /* SettingsView.swift */; };
+		EE0F58522981DA63E97F6642 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011E9F30A0F3B80F8418793 /* KeyboardViewController.swift */; };
 		F957792EA2285893A2AD0A55 /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70C9188FFF2C298CF3F4E95 /* Prefs.swift */; };
+		FBD10FCEF321F3EEFBD67705 /* KeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4E2D10A3FB11F7D1F45CB6 /* KeyboardBridge.swift */; };
+		FE0D68593D042167891176E6 /* KeyboardSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEAE3915DE501C35FE06B28 /* KeyboardSession.swift */; };
 		FF42F5A9507320352101772C /* SpeakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE330A6FDEA1D3B8D327100 /* SpeakView.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +65,10 @@
 		1C8A8B98C535025DCDA8627F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		30ADDA1B4BE956400728498B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F686A3ED9B0CCDB21CCCBB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		426E47887057D0859F5EEBE8 /* DictationJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationJob.swift; sourceTree = "<group>"; };
+		4665E6605AB286FAAEA3449A /* SessionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViews.swift; sourceTree = "<group>"; };
+		4D4E2D10A3FB11F7D1F45CB6 /* KeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardBridge.swift; sourceTree = "<group>"; };
+		53CA641C9292A978F0DEA019 /* KeyboardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPreview.swift; sourceTree = "<group>"; };
 		69C57D053F6A95367349D183 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		6DA0836B90EF6FF93805E813 /* TaosKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TaosKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		764AC13A5D54641D30C3385B /* TaosDictate.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TaosDictate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +80,7 @@
 		A615055020C21F51BC2074B1 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B011E9F30A0F3B80F8418793 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		BCDADBFDEF5289191958FBF6 /* DecoderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderView.swift; sourceTree = "<group>"; };
+		BEEAE3915DE501C35FE06B28 /* KeyboardSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSession.swift; sourceTree = "<group>"; };
 		D2381681BCBC3B390B797B58 /* DictateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictateAPI.swift; sourceTree = "<group>"; };
 		D67111C3D5AAE96BB8EECD55 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		E9E10EA0AB6D4FE3CCFAB976 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -138,7 +150,9 @@
 			isa = PBXGroup;
 			children = (
 				BCDADBFDEF5289191958FBF6 /* DecoderView.swift */,
+				53CA641C9292A978F0DEA019 /* KeyboardPreview.swift */,
 				69C57D053F6A95367349D183 /* RootView.swift */,
+				4665E6605AB286FAAEA3449A /* SessionViews.swift */,
 				109F6583ECDC526C5C9DAD42 /* SettingsView.swift */,
 				E9E10EA0AB6D4FE3CCFAB976 /* SignInView.swift */,
 				9FE330A6FDEA1D3B8D327100 /* SpeakView.swift */,
@@ -152,6 +166,8 @@
 				F33F046514D032FAE77A2053 /* AuthManager.swift */,
 				8B7496C5B20C50859913B69C /* ChunkedRecorder.swift */,
 				D2381681BCBC3B390B797B58 /* DictateAPI.swift */,
+				426E47887057D0859F5EEBE8 /* DictationJob.swift */,
+				BEEAE3915DE501C35FE06B28 /* KeyboardSession.swift */,
 				F70C9188FFF2C298CF3F4E95 /* Prefs.swift */,
 				F85F64C97A50ECEC1FDB7976 /* SpeakModel.swift */,
 			);
@@ -161,6 +177,7 @@
 		D108324C0CB5C7E8BE08FAC5 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				4D4E2D10A3FB11F7D1F45CB6 /* KeyboardBridge.swift */,
 				D67111C3D5AAE96BB8EECD55 /* Shared.swift */,
 				A5318925819282909AEF1546 /* Localizable.strings */,
 			);
@@ -290,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E5A6F6AE7D1FD9BBAE666E2 /* KeyboardBridge.swift in Sources */,
 				0CF05E3A55A627CD503A1D70 /* KeyboardViewController.swift in Sources */,
 				9BCEB3F32DC6AEF8ACA93716 /* Shared.swift in Sources */,
 			);
@@ -303,8 +321,14 @@
 				7DC3803B3CA2BE482D8A34EB /* ChunkedRecorder.swift in Sources */,
 				8050451DEFAE1EA9B00C6E93 /* DecoderView.swift in Sources */,
 				546BACCEAAC67FAE821A2A6F /* DictateAPI.swift in Sources */,
+				D1EE964C7F11724BD5EB6150 /* DictationJob.swift in Sources */,
+				FBD10FCEF321F3EEFBD67705 /* KeyboardBridge.swift in Sources */,
+				3C13AE7B698A6ACDB8493248 /* KeyboardPreview.swift in Sources */,
+				FE0D68593D042167891176E6 /* KeyboardSession.swift in Sources */,
+				EE0F58522981DA63E97F6642 /* KeyboardViewController.swift in Sources */,
 				F957792EA2285893A2AD0A55 /* Prefs.swift in Sources */,
 				6062CFE6D33E84B8988B614F /* RootView.swift in Sources */,
+				109FF1EF2BA4BAEB42FC961E /* SessionViews.swift in Sources */,
 				E7B0BF870F71EDCE112BE2A6 /* SettingsView.swift in Sources */,
 				16211FA13AB911C02035716C /* Shared.swift in Sources */,
 				C98A1DB7D5631EC55E90C5A7 /* SignInView.swift in Sources */,

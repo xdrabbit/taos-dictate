@@ -13,7 +13,11 @@ struct TaosDictateApp: App {
                 #else
                 let preview = false
                 #endif
-                if preview { RootView(auth: auth) } else {
+                if ProcessInfo.processInfo.arguments.contains("-kbPreview") {
+                    #if DEBUG
+                    KeyboardPreview().ignoresSafeArea(edges: .bottom).background(Color(white: 0.82))
+                    #endif
+                } else if preview { RootView(auth: auth) } else {
                 switch auth.state {
                 case .loading:
                     ProgressView()
@@ -26,6 +30,14 @@ struct TaosDictateApp: App {
             }
             .environmentObject(auth)
             .tint(Color.taosAccent)
+            // The TAOS keyboard's mic opens taosdictate://session. Handled here, not in
+            // RootView, so a cold launch (still restoring sign-in) isn't lost.
+            .onOpenURL { url in
+                if url.host == "session" {
+                    let decode = url.query?.contains("decode") == true
+                    KeyboardSession.shared.handleOpenFromKeyboard(decode: decode)
+                }
+            }
         }
     }
 }

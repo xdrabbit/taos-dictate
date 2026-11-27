@@ -24,8 +24,7 @@ final class SpeakModel: ObservableObject {
     }
 
     private let recorder = ChunkedRecorder()
-    private var earlier: [Int: Task<PriorChunk, Never>] = [:]
-    private var earlierMs: [Int: Int] = [:]
+    private var job: DictationJob?
     private var recordedSource = "en"
     private var restyleTask: Task<Void, Never>?
     private let api: DictateAPI
@@ -34,7 +33,7 @@ final class SpeakModel: ObservableObject {
     init(api: DictateAPI, onSignedOut: @escaping () -> Void) {
         self.api = api
         self.onSignedOut = onSignedOut
-        recorder.onChunk = { [weak self] chunk in self?.uploadEarlier(chunk) }
+        recorder.onChunk = { [weak self] chunk in self?.job?.add(chunk) }
         recorder.onAutoStop = { [weak self] last in self?.finish(last: last) }
         #if DEBUG
         // Simulator self-test: launch with -micSelfTest to start and stop the recorder once.
@@ -63,9 +62,11 @@ final class SpeakModel: ObservableObject {
         guard await ChunkedRecorder.requestPermission() else {
             error = L("error.mic_denied"); return
         }
+        // The keyboard session holds the mic in the background; Speak takes it over.
+        KeyboardSession.shared.end()
         do {
-            earlier = [:]; earlierMs = [:]
             recordedSource = source
+            job = DictationJob(api: api, source: source)
             try recorder.start()
             startedAt = recorder.started
             phase = .recording
@@ -77,54 +78,21 @@ final class SpeakModel: ObservableObject {
         }
     }
 
-    private func uploadEarlier(_ chunk: ChunkedRecorder.Chunk) {
-        earlierMs[chunk.index] = chunk.ms
-        let api = self.api, source = recordedSource
-        earlier[chunk.index] = Task {
-            defer { try? FileManager.default.removeItem(at: chunk.url) }
-            do {
-                let r = try await api.chunk(audio: chunk.url, source: source, index: chunk.index, ms: chunk.ms)
-                return .text(r.chunk.text, ms: chunk.ms)
-            } catch {
-                // Contract: a failed earlier chunk does not abandon the dictation.
-                return .lost(ms: chunk.ms)
-            }
-        }
-    }
-
     private func finish(last: ChunkedRecorder.Chunk?) {
         guard phase == .recording else { return }
         UIApplication.shared.isIdleTimerDisabled = false
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         startedAt = nil
-        let pending = earlier.sorted { $0.key < $1.key }.map(\.value)
-        earlier = [:]
-
-        // Nothing at all, or a tap that was over before it started.
-        if pending.isEmpty, (last?.ms ?? 0) < 600 {
-            if let url = last?.url { try? FileManager.default.removeItem(at: url) }
-            phase = .idle
-            error = L("error.too_short")
-            return
-        }
-
+        guard let job else { phase = .idle; return }
+        self.job = nil
         phase = .working
-        let source = recordedSource, style = self.style, target = self.target
+        let style = self.style, target = self.target
         Task {
-            defer { if let url = last?.url { try? FileManager.default.removeItem(at: url) } }
             do {
-                let r: DictateResult
-                if pending.isEmpty {
-                    r = try await api.speak(audio: last?.url, source: source, style: style, target: target)
-                } else {
-                    var prior: [PriorChunk] = []
-                    for t in pending { prior.append(await t.value) }
-                    // Omit the last audio only when it is effectively empty.
-                    let lastAudio = (last?.ms ?? 0) >= 500 ? last?.url : nil
-                    r = try await api.speak(audio: lastAudio, source: source, style: style, target: target,
-                                            prior: prior, chunkIndex: prior.count, chunkMs: last?.ms ?? 0)
+                switch try await job.finish(last: last, style: style, target: target) {
+                case .tooShort: error = L("error.too_short")
+                case let .result(r): show(r)
                 }
-                show(r)
             } catch {
                 handle(error)
             }
