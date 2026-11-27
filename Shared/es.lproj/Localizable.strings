@@ -81,3 +81,12 @@
 "session.stay" = "Quedarme en TAOS"; // pendiente de revisión por Liz
 "session.banner_listening" = "El teclado está escuchando"; // pendiente de revisión por Liz
 "session.banner_ready" = "Sesión del teclado activa"; // pendiente de revisión por Liz
+"kb.decode" = "Descifrar"; // pendiente de revisión por Liz
+"kb.decode_hint" = "Primero copia un mensaje y luego toca para ver qué significa."; // pendiente de revisión por Liz
+"kb.copy_first" = "Primero copia el mensaje: mantenlo presionado › Copiar. Luego toca Descifrar."; // pendiente de revisión por Liz
+"kb.reply" = "Responder"; // pendiente de revisión por Liz
+"kb.close" = "Cerrar"; // pendiente de revisión por Liz
+"kb.decoded_hint" = "Toca Responder y contesta en tu idioma — se envía en el suyo."; // pendiente de revisión por Liz
+"session.decoding" = "Descifrando…"; // pendiente de revisión por Liz
+"session.decoded" = "Descifrado"; // pendiente de revisión por Liz
+"session.explain_decode" = "Vuelve a tu app con ◀ arriba a la izquierda — el significado te espera en el teclado TAOS. Toca Responder allí para contestar en tu idioma."; // pendiente de revisión por Liz

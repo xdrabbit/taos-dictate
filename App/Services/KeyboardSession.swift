@@ -27,9 +27,12 @@ final class KeyboardSession: ObservableObject {
     /// Set once signed in; nil means signed out. A keyboard launch that arrives
     /// before sign-in has been restored waits for it.
     var api: DictateAPI? {
-        didSet { if api != nil, pendingOpen { pendingOpen = false; handleOpenFromKeyboard() } }
+        didSet { if api != nil, pendingOpen { pendingOpen = false; handleOpenFromKeyboard(decode: pendingDecodeOpen) } }
     }
     private var pendingOpen = false
+    private var pendingDecodeOpen = false
+    /// The guide screen says "decoded — go back" instead of "listening".
+    @Published private(set) var guideIsDecode = false
 
     private let engine = AVAudioEngine()
     private var writer: ChunkWriter?
@@ -57,16 +60,38 @@ final class KeyboardSession: ObservableObject {
                 self.end()
             }
         }
+        // Launch with -kbDecodeTest: decode a sample message the way the keyboard asks.
+        if ProcessInfo.processInfo.arguments.contains("-kbDecodeTest") {
+            let id = KeyboardBridge.requestDecode("hola amor ya sali del trabajo llego tipo 7 o 730 q quieres q compre")
+            Task { @MainActor in
+                for _ in 0..<60 {
+                    if self.api != nil { break }
+                    try? await Task.sleep(for: .milliseconds(500))
+                }
+                self.handleOpenFromKeyboard(decode: true)
+                for _ in 0..<90 {
+                    if let m = KeyboardBridge.decodeResult(for: id) {
+                        print("[taos-kb] decode test ok: \(m.translation) notes=\(m.notes.count)"); self.end(); return
+                    }
+                    if self.phase == .error { print("[taos-kb] decode test failed: \(self.lastError ?? "?")"); return }
+                    try? await Task.sleep(for: .milliseconds(500))
+                }
+                print("[taos-kb] decode test timed out")
+            }
+        }
         #endif
     }
 
     // MARK: Entry points
 
     /// The keyboard opened the app (taosdictate://session): open the session and start listening.
-    func handleOpenFromKeyboard() {
-        guard api != nil else { pendingOpen = true; return }
+    func handleOpenFromKeyboard(decode: Bool = false) {
+        guard api != nil else { pendingOpen = true; pendingDecodeOpen = decode; return }
         open()
-        if isOpen { startListening(); showGuide = true }
+        guard isOpen else { return }
+        if decode { decodePending() } else { startListening() }
+        guideIsDecode = decode
+        showGuide = true
     }
 
     func open() {
@@ -159,6 +184,31 @@ final class KeyboardSession: ObservableObject {
         }
     }
 
+    // MARK: Decoder
+
+    /// Decode the message the keyboard copied, with the same pair the app's Decoder uses.
+    func decodePending() {
+        guard let (id, text) = KeyboardBridge.pendingDecode else { return }
+        guard let api else { fail(L("error.signed_out")); return }
+        guard phase != .listening else { return }
+        lastActivity = Date()
+        setPhase(.working)
+        let reader = SharedPrefs.myLanguage
+        var other = SharedPrefs.otherLanguage
+        if other == reader { other = reader == "es" ? "en" : "es" }
+        Task {
+            do {
+                let r = try await api.decode(raw: String(text.prefix(6000)), reader: reader, other: other)
+                KeyboardBridge.publishDecode(id: id, DecodedMessage(
+                    translation: r.translation, cleaned: r.cleaned, notes: r.notes, sourceLanguage: r.sourceLanguage))
+                setPhase(.idle)
+            } catch {
+                fail((error as? DictateError)?.errorDescription ?? error.localizedDescription)
+            }
+            lastActivity = Date()
+        }
+    }
+
     // MARK: Private
 
     private func observeKeyboard() {
@@ -170,6 +220,10 @@ final class KeyboardSession: ObservableObject {
         }
         DarwinNotify.observe(KeyboardBridge.Note.stop) { [weak self] in self?.stopListening() }
         DarwinNotify.observe(KeyboardBridge.Note.end) { [weak self] in self?.end() }
+        DarwinNotify.observe(KeyboardBridge.Note.decode) { [weak self] in
+            guard let self else { return }
+            if self.isOpen { self.decodePending() } else { self.fail(L("kb.session_closed")) }
+        }
     }
 
     private func tick() {

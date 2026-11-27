@@ -81,3 +81,12 @@
 "session.stay" = "Stay in TAOS";
 "session.banner_listening" = "Keyboard is listening";
 "session.banner_ready" = "Keyboard session on";
+"kb.decode" = "Decode";
+"kb.decode_hint" = "Copy a message first, then tap to see what it means.";
+"kb.copy_first" = "Copy the message first: long-press it › Copy. Then tap Decode.";
+"kb.reply" = "Reply";
+"kb.close" = "Close";
+"kb.decoded_hint" = "Tap Reply and answer in your language — it goes out in theirs.";
+"session.decoding" = "Decoding…";
+"session.decoded" = "Decoded";
+"session.explain_decode" = "Go back to your app with ◀ at the top left — the meaning is waiting on the TAOS keyboard. Tap Reply there to answer in your language.";

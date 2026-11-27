@@ -29,7 +29,10 @@ struct TaosDictateApp: App {
             // The TAOS keyboard's mic opens taosdictate://session. Handled here, not in
             // RootView, so a cold launch (still restoring sign-in) isn't lost.
             .onOpenURL { url in
-                if url.host == "session" { KeyboardSession.shared.handleOpenFromKeyboard() }
+                if url.host == "session" {
+                    let decode = url.query?.contains("decode") == true
+                    KeyboardSession.shared.handleOpenFromKeyboard(decode: decode)
+                }
             }
         }
     }

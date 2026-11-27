@@ -14,6 +14,7 @@ enum KeyboardBridge {
         static let start = "com.taoslite.dictate.kb.start"   // keyboard → app
         static let stop  = "com.taoslite.dictate.kb.stop"    // keyboard → app
         static let end   = "com.taoslite.dictate.kb.end"     // keyboard → app
+        static let decode = "com.taoslite.dictate.kb.decode" // keyboard → app
         static let state = "com.taoslite.dictate.app.state"  // app → keyboard
     }
 
@@ -27,6 +28,10 @@ enum KeyboardBridge {
         static let resultDate = "kb.result.date"
         static let consumedID = "kb.result.consumed"
         static let error = "kb.error"
+        static let decodeReqID = "kb.decode.request.id"
+        static let decodeReqText = "kb.decode.request.text"
+        static let decodeResID = "kb.decode.result.id"
+        static let decodeResJSON = "kb.decode.result.json"
     }
 
     static var defaults: UserDefaults? { UserDefaults(suiteName: TaosConfig.appGroup) }
@@ -81,6 +86,47 @@ enum KeyboardBridge {
               Date().timeIntervalSince1970 - at < 600 else { return nil }
         d.set(req, forKey: K.consumedID)
         return text
+    }
+}
+
+// MARK: Decoder (keyboard copies a message → app decodes it → keyboard shows it)
+
+/// What the keyboard shows for a decoded message. Mirrors the API's decode reply.
+struct DecodedMessage: Codable {
+    let translation: String
+    let cleaned: String
+    let notes: [String]
+    let sourceLanguage: String?
+}
+
+extension KeyboardBridge {
+    /// Keyboard: ask the app to decode `text`. Returns the request id.
+    static func requestDecode(_ text: String) -> String {
+        let id = UUID().uuidString
+        defaults?.set(text, forKey: K.decodeReqText)
+        defaults?.set(id, forKey: K.decodeReqID)
+        return id
+    }
+
+    /// App: the pending decode request, if any.
+    static var pendingDecode: (id: String, text: String)? {
+        guard let d = defaults, let id = d.string(forKey: K.decodeReqID),
+              d.string(forKey: K.decodeResID) != id,
+              let text = d.string(forKey: K.decodeReqText), !text.isEmpty else { return nil }
+        return (id, text)
+    }
+
+    static func publishDecode(id: String, _ m: DecodedMessage) {
+        guard let d = defaults, let data = try? JSONEncoder().encode(m) else { return }
+        d.set(data, forKey: K.decodeResJSON)
+        d.set(id, forKey: K.decodeResID)
+    }
+
+    /// Keyboard: the decoded message for request `id`, once it's there.
+    static func decodeResult(for id: String) -> DecodedMessage? {
+        guard let d = defaults, d.string(forKey: K.decodeResID) == id,
+              let data = d.data(forKey: K.decodeResJSON) else { return nil }
+        return try? JSONDecoder().decode(DecodedMessage.self, from: data)
     }
 }
 

@@ -25,14 +25,16 @@ struct SessionGuideView: View {
                 if session.phase == .working {
                     ProgressView().tint(.white).scaleEffect(1.6)
                 } else {
-                    Image(systemName: "mic.fill").font(.system(size: 56, weight: .bold)).foregroundStyle(.white)
+                    Image(systemName: session.guideIsDecode ? "text.magnifyingglass" : "mic.fill").font(.system(size: 56, weight: .bold)).foregroundStyle(.white)
                 }
             }
 
-            Text(L(session.phase == .listening ? "session.listening" : "session.ready"))
+            Text(L(session.guideIsDecode
+                   ? (session.phase == .working ? "session.decoding" : "session.decoded")
+                   : (session.phase == .listening ? "session.listening" : "session.ready")))
                 .font(.title2.bold())
                 .multilineTextAlignment(.center)
-            Text(L("session.explain"))
+            Text(L(session.guideIsDecode ? "session.explain_decode" : "session.explain"))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
             if let err = session.lastError {

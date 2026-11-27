@@ -17,6 +17,11 @@ final class KeyboardViewController: UIInputViewController {
     private var poll: Timer?
     /// We asked the app to stop and are waiting for text.
     private var waiting = false
+    /// Decoder: request in flight, and the panel that shows the answer.
+    private var decodeID: String?
+    private let panel = UIStackView()
+    private let panelText = UITextView()
+    private var heightConstraint: NSLayoutConstraint?
 
     private static let accent = UIColor(red: 0.86, green: 0.38, blue: 0.20, alpha: 1)
     private static let styles = ["formal", "professional", "conversational", "casual"]
@@ -85,19 +90,39 @@ final class KeyboardViewController: UIInputViewController {
         let globe = key(nil, symbol: "globe", action: nil)
         globe.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
         globeButton = globe
-        let last = key(nil, symbol: "text.insert", action: #selector(insertLast))
-        last.accessibilityLabel = L("keyboard.insert")
+        let decode = key(L("kb.decode"), symbol: "text.magnifyingglass", action: #selector(decodeTapped))
+        decode.accessibilityHint = L("kb.decode_hint")
         let space = key(L("keyboard.space"), symbol: nil, action: #selector(spaceTapped))
         let delete = key(nil, symbol: "delete.left", action: nil)
         delete.addTarget(self, action: #selector(deleteDown), for: .touchDown)
         delete.addTarget(self, action: #selector(deleteUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
         let ret = key(nil, symbol: "return", action: #selector(returnTapped))
 
-        let bottomRow = UIStackView(arrangedSubviews: [globe, last, space, delete, ret])
+        let bottomRow = UIStackView(arrangedSubviews: [globe, decode, space, delete, ret])
         bottomRow.spacing = 6
-        space.widthAnchor.constraint(greaterThanOrEqualTo: bottomRow.widthAnchor, multiplier: 0.38).isActive = true
+        space.widthAnchor.constraint(greaterThanOrEqualTo: bottomRow.widthAnchor, multiplier: 0.30).isActive = true
 
-        let stack = UIStackView(arrangedSubviews: [status, micRow, bottomRow])
+        panelText.isEditable = false
+        panelText.font = .preferredFont(forTextStyle: .body)
+        panelText.backgroundColor = .secondarySystemBackground
+        panelText.layer.cornerRadius = 10
+        panelText.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
+        let close = key(nil, symbol: "xmark", action: #selector(closePanel))
+        close.accessibilityLabel = L("kb.close")
+        let reply = key(L("kb.reply"), symbol: "mic.fill", action: #selector(replyTapped))
+        reply.configuration?.baseBackgroundColor = Self.accent
+        reply.configuration?.baseForegroundColor = .white
+        let panelButtons = UIStackView(arrangedSubviews: [close, reply])
+        panelButtons.spacing = 8
+        close.widthAnchor.constraint(equalToConstant: 52).isActive = true
+        panel.axis = .vertical
+        panel.spacing = 6
+        panel.addArrangedSubview(panelText)
+        panel.addArrangedSubview(panelButtons)
+        panel.isHidden = true
+        panelButtons.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
+        let stack = UIStackView(arrangedSubviews: [panel, status, micRow, bottomRow])
         stack.axis = .vertical
         stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -116,6 +141,11 @@ final class KeyboardViewController: UIInputViewController {
             stylePill.widthAnchor.constraint(lessThanOrEqualTo: micRow.widthAnchor, multiplier: 0.33),
             bottomRow.heightAnchor.constraint(equalToConstant: 44),
         ])
+        // Apple's way to change a keyboard's height: a constraint on the view itself.
+        let h = view.heightAnchor.constraint(equalToConstant: 236)
+        h.priority = UILayoutPriority(999)
+        h.isActive = true
+        heightConstraint = h
     }
 
     private func key(_ title: String?, symbol: String?, action: Selector?) -> UIButton {
@@ -144,6 +174,10 @@ final class KeyboardViewController: UIInputViewController {
             insert(text)
             waiting = false
         }
+        if let id = decodeID, let m = KeyboardBridge.decodeResult(for: id) {
+            decodeID = nil
+            showPanel(m)
+        }
 
         let alive = KeyboardBridge.sessionAlive
         let phase: KeyboardBridge.Phase = alive ? KeyboardBridge.phase : (waiting ? .working : .idle)
@@ -154,14 +188,16 @@ final class KeyboardViewController: UIInputViewController {
             status.text = String(format: L("kb.listening"), secs / 60, secs % 60)
         case .working:
             setMic(.working)
-            status.text = L("speak.working")
+            status.text = L(decodeID != nil ? "session.decoding" : "speak.working")
         case .error:
             setMic(.idle)
             waiting = false
+            decodeID = nil
             status.text = KeyboardBridge.error ?? L("kb.tap_to_talk")
         case .idle:
             setMic(.idle)
-            status.text = L(alive ? "kb.tap_to_talk" : "kb.tap_to_start")
+            status.text = decodeID != nil ? L("session.decoding")
+                : L(alive ? "kb.tap_to_talk" : "kb.tap_to_start")
         }
     }
 
@@ -233,9 +269,51 @@ final class KeyboardViewController: UIInputViewController {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
 
-    @objc private func insertLast() {
-        guard hasFullAccess, let text = SharedResult.load()?.text else { return }
-        insert(text)
+    // MARK: Decoder
+
+    /// Decode what the user copied (long-press a message → Copy).
+    @objc private func decodeTapped() {
+        guard hasFullAccess else { return }
+        guard let text = UIPasteboard.general.string?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !text.isEmpty else {
+            status.text = L("kb.copy_first")
+            return
+        }
+        decodeID = KeyboardBridge.requestDecode(text)
+        status.text = L("session.decoding")
+        if KeyboardBridge.sessionAlive {
+            DarwinNotify.post(KeyboardBridge.Note.decode)
+        } else {
+            openApp(decode: true)
+        }
+    }
+
+    private func showPanel(_ m: DecodedMessage) {
+        let body = NSMutableAttributedString(string: m.translation, attributes: [
+            .font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.label])
+        if !m.notes.isEmpty {
+            body.append(NSAttributedString(string: "\n\n" + L("decoder.notes") + "\n" +
+                                           m.notes.map { "• " + $0 }.joined(separator: "\n"), attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .footnote), .foregroundColor: UIColor.secondaryLabel]))
+        }
+        panelText.attributedText = body
+        panelText.setContentOffset(.zero, animated: false)
+        panel.isHidden = false
+        heightConstraint?.constant = 236 + 150
+        status.text = L("kb.decoded_hint")
+    }
+
+    @objc private func closePanel() {
+        panel.isHidden = true
+        heightConstraint?.constant = 236
+        refresh()
+    }
+
+    /// Answer in your language; it goes out in theirs (turns the translate pill on).
+    @objc private func replyTapped() {
+        SharedPrefs.target = SharedPrefs.otherLanguage
+        closePanel()
+        micTapped()
     }
 
     @objc private func spaceTapped() { textDocumentProxy.insertText(" ") }
@@ -260,11 +338,11 @@ final class KeyboardViewController: UIInputViewController {
     /// This walks the responder chain to the host UIApplication and calls its public
     /// open(_:options:completionHandler:). Not private API, but Apple could stop it working;
     /// if it does, the status line tells the user to open the app themselves.
-    private func openApp() {
+    private func openApp(decode: Bool = false) {
         var responder: UIResponder? = self
         while let r = responder {
             if let app = r as? UIApplication {
-                app.open(URL(string: "taosdictate://session")!, options: [:]) { [weak self] ok in
+                app.open(URL(string: decode ? "taosdictate://session?decode=1" : "taosdictate://session")!, options: [:]) { [weak self] ok in
                     if !ok { self?.status.text = L("keyboard.open_manually") }
                 }
                 return
