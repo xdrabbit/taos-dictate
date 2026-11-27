@@ -126,6 +126,11 @@ final class KeyboardViewController: UIInputViewController {
         panelText.backgroundColor = .secondarySystemBackground
         panelText.layer.cornerRadius = 10
         panelText.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
+        // iOS 26 softly blurs a scroll view's edges; in a box this short that blurs the text itself.
+        if #available(iOS 26.0, *) {
+            for edge in [panelText.topEdgeEffect, panelText.bottomEdgeEffect,
+                         panelText.leftEdgeEffect, panelText.rightEdgeEffect] { edge.isHidden = true }
+        }
         let close = key(nil, symbol: "xmark", action: #selector(closePanel))
         close.accessibilityLabel = L("kb.close")
         let reply = key(L("kb.reply"), symbol: "mic.fill", action: #selector(replyTapped))
