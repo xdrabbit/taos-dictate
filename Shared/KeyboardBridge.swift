@@ -32,6 +32,8 @@ enum KeyboardBridge {
         static let decodeReqText = "kb.decode.request.text"
         static let decodeResID = "kb.decode.result.id"
         static let decodeResJSON = "kb.decode.result.json"
+        static let decodeAwaiting = "kb.decode.awaiting"
+        static let decodeAwaitingAt = "kb.decode.awaiting.at"
     }
 
     static var defaults: UserDefaults? { UserDefaults(suiteName: TaosConfig.appGroup) }
@@ -120,6 +122,21 @@ extension KeyboardBridge {
         guard let d = defaults, let data = try? JSONEncoder().encode(m) else { return }
         d.set(data, forKey: K.decodeResJSON)
         d.set(id, forKey: K.decodeResID)
+    }
+
+    /// Keyboard: the decode it is waiting to show. Stored in the App Group, not in memory,
+    /// because iOS starts a fresh keyboard when the user comes back from the app.
+    static var awaitingDecode: String? {
+        get {
+            guard let d = defaults, let id = d.string(forKey: K.decodeAwaiting),
+                  let at = d.object(forKey: K.decodeAwaitingAt) as? Double,
+                  Date().timeIntervalSince1970 - at < 600 else { return nil }
+            return id
+        }
+        set {
+            defaults?.set(newValue, forKey: K.decodeAwaiting)
+            defaults?.set(newValue == nil ? nil : Date().timeIntervalSince1970, forKey: K.decodeAwaitingAt)
+        }
     }
 
     /// Keyboard: the decoded message for request `id`, once it's there.

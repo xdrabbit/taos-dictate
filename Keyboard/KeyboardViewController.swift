@@ -17,14 +17,20 @@ final class KeyboardViewController: UIInputViewController {
     private var poll: Timer?
     /// We asked the app to stop and are waiting for text.
     private var waiting = false
-    /// Decoder: request in flight, and the panel that shows the answer.
-    private var decodeID: String?
+    /// Decoder: request in flight (kept in the App Group so a fresh keyboard still
+    /// shows it after the user comes back from the app), and the panel for the answer.
+    private var decodeID: String? {
+        get { KeyboardBridge.awaitingDecode }
+        set { KeyboardBridge.awaitingDecode = newValue }
+    }
     private let panel = UIStackView()
     private let panelText = UITextView()
     private var heightConstraint: NSLayoutConstraint?
+    private var micRowView: UIView?
 
     private static let accent = UIColor(red: 0.86, green: 0.38, blue: 0.20, alpha: 1)
     private static let styles = ["formal", "professional", "conversational", "casual"]
+    private static let baseHeight: CGFloat = 236
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +38,21 @@ final class KeyboardViewController: UIInputViewController {
         DarwinNotify.observe(KeyboardBridge.Note.state) { [weak self] in self?.refresh() }
     }
 
+    #if DEBUG
+    /// The app's -kbPreview screen hosts this keyboard in the Simulator to check layout.
+    static var previewDecoded: DecodedMessage?
+    private var previewShown = false
+    #endif
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        #if DEBUG
+        if let m = Self.previewDecoded, !previewShown {
+            previewShown = true
+            showPanel(m)
+            return
+        }
+        #endif
         refresh()
         // Belt and braces: Darwin notifications can be missed while we're off screen.
         poll = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in self?.refresh() }
@@ -121,6 +140,16 @@ final class KeyboardViewController: UIInputViewController {
         panel.addArrangedSubview(panelButtons)
         panel.isHidden = true
         panelButtons.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        // The panel takes the place of the status line and mic row, so the keyboard
+        // never changes height (iOS doesn't reliably resize a keyboard on screen).
+        // The text view is the one flexible piece: it gets whatever room is left.
+        panelText.setContentHuggingPriority(.defaultLow, for: .vertical)
+        panelText.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        for v in [status, micRow, bottomRow, panelButtons] as [UIView] {
+            v.setContentHuggingPriority(.required, for: .vertical)
+            v.setContentCompressionResistancePriority(.required, for: .vertical)
+        }
+        micRowView = micRow
 
         let stack = UIStackView(arrangedSubviews: [panel, status, micRow, bottomRow])
         stack.axis = .vertical
@@ -142,7 +171,7 @@ final class KeyboardViewController: UIInputViewController {
             bottomRow.heightAnchor.constraint(equalToConstant: 44),
         ])
         // Apple's way to change a keyboard's height: a constraint on the view itself.
-        let h = view.heightAnchor.constraint(equalToConstant: 236)
+        let h = view.heightAnchor.constraint(equalToConstant: Self.baseHeight)
         h.priority = UILayoutPriority(999)
         h.isActive = true
         heightConstraint = h
@@ -298,14 +327,16 @@ final class KeyboardViewController: UIInputViewController {
         }
         panelText.attributedText = body
         panelText.setContentOffset(.zero, animated: false)
+        status.isHidden = true
+        micRowView?.isHidden = true
         panel.isHidden = false
-        heightConstraint?.constant = 236 + 150
-        status.text = L("kb.decoded_hint")
+        view.setNeedsLayout()
     }
 
     @objc private func closePanel() {
         panel.isHidden = true
-        heightConstraint?.constant = 236
+        status.isHidden = false
+        micRowView?.isHidden = false
         refresh()
     }
 

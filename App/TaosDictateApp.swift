@@ -13,7 +13,11 @@ struct TaosDictateApp: App {
                 #else
                 let preview = false
                 #endif
-                if preview { RootView(auth: auth) } else {
+                if ProcessInfo.processInfo.arguments.contains("-kbPreview") {
+                    #if DEBUG
+                    KeyboardPreview().ignoresSafeArea(edges: .bottom).background(Color(white: 0.82))
+                    #endif
+                } else if preview { RootView(auth: auth) } else {
                 switch auth.state {
                 case .loading:
                     ProgressView()

@@ -35,6 +35,8 @@ targets:
     sources:
       - path: App
       - path: Shared
+      # DEBUG -kbPreview hosts the keyboard inside the app to check its layout.
+      - path: Keyboard/KeyboardViewController.swift
     dependencies:
       - package: Supabase
         product: Auth
