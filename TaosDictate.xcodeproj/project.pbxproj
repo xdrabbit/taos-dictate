@@ -1,0 +1,592 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		066EAD8EC8FECF636BBBD44A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5318925819282909AEF1546 /* Localizable.strings */; };
+		0CF05E3A55A627CD503A1D70 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011E9F30A0F3B80F8418793 /* KeyboardViewController.swift */; };
+		0FDFC2C2185DE0637D61AAB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1186883962AF277028B228D1 /* InfoPlist.strings */; };
+		16211FA13AB911C02035716C /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67111C3D5AAE96BB8EECD55 /* Shared.swift */; };
+		320FBD7E7B5FE77288A21B90 /* TaosDictateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7716EFAEF7E49775F997B1D2 /* TaosDictateApp.swift */; };
+		4848EB6F9460178914DF7073 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30ADDA1B4BE956400728498B /* Assets.xcassets */; };
+		4EF51CEA465A8D6CABC885E0 /* SpeakModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85F64C97A50ECEC1FDB7976 /* SpeakModel.swift */; };
+		546BACCEAAC67FAE821A2A6F /* DictateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2381681BCBC3B390B797B58 /* DictateAPI.swift */; };
+		6062CFE6D33E84B8988B614F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C57D053F6A95367349D183 /* RootView.swift */; };
+		6C692EF4A6642DCD156B3489 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C4E92CED94F515B8C1B93E9A /* Auth */; };
+		7DC3803B3CA2BE482D8A34EB /* ChunkedRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7496C5B20C50859913B69C /* ChunkedRecorder.swift */; };
+		8050451DEFAE1EA9B00C6E93 /* DecoderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDADBFDEF5289191958FBF6 /* DecoderView.swift */; };
+		9BCEB3F32DC6AEF8ACA93716 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67111C3D5AAE96BB8EECD55 /* Shared.swift */; };
+		BF19DBD94440F8E364D655D5 /* TaosKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6DA0836B90EF6FF93805E813 /* TaosKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C98A1DB7D5631EC55E90C5A7 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E10EA0AB6D4FE3CCFAB976 /* SignInView.swift */; };
+		CAE73F6DC234B84D5815A43A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F046514D032FAE77A2053 /* AuthManager.swift */; };
+		E394A3FDF686F8DDA33C1406 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5318925819282909AEF1546 /* Localizable.strings */; };
+		E7B0BF870F71EDCE112BE2A6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109F6583ECDC526C5C9DAD42 /* SettingsView.swift */; };
+		F957792EA2285893A2AD0A55 /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70C9188FFF2C298CF3F4E95 /* Prefs.swift */; };
+		FF42F5A9507320352101772C /* SpeakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE330A6FDEA1D3B8D327100 /* SpeakView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		20D17C6F02D9495BE0BC4CC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D61FF64D129972CE9A230D62 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E190BF964286812C718C008;
+			remoteInfo = TaosKeyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1ADFEE2B388365B4359D3DD /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BF19DBD94440F8E364D655D5 /* TaosKeyboard.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		109F6583ECDC526C5C9DAD42 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1C8A8B98C535025DCDA8627F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		30ADDA1B4BE956400728498B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3F686A3ED9B0CCDB21CCCBB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		69C57D053F6A95367349D183 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		6DA0836B90EF6FF93805E813 /* TaosKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TaosKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		764AC13A5D54641D30C3385B /* TaosDictate.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TaosDictate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7716EFAEF7E49775F997B1D2 /* TaosDictateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaosDictateApp.swift; sourceTree = "<group>"; };
+		7D630C8A6C33E27392FADD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8B7496C5B20C50859913B69C /* ChunkedRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunkedRecorder.swift; sourceTree = "<group>"; };
+		9FE330A6FDEA1D3B8D327100 /* SpeakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakView.swift; sourceTree = "<group>"; };
+		A4A9945C75315C71515BD37E /* TaosDictate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaosDictate.entitlements; sourceTree = "<group>"; };
+		A615055020C21F51BC2074B1 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B011E9F30A0F3B80F8418793 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		BCDADBFDEF5289191958FBF6 /* DecoderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderView.swift; sourceTree = "<group>"; };
+		D2381681BCBC3B390B797B58 /* DictateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictateAPI.swift; sourceTree = "<group>"; };
+		D67111C3D5AAE96BB8EECD55 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		E9E10EA0AB6D4FE3CCFAB976 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		EB7520B3FF191694A67DB571 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F33F046514D032FAE77A2053 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		F6BA46442F5FF86259B3F073 /* TaosKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaosKeyboard.entitlements; sourceTree = "<group>"; };
+		F70C9188FFF2C298CF3F4E95 /* Prefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prefs.swift; sourceTree = "<group>"; };
+		F85F64C97A50ECEC1FDB7976 /* SpeakModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakModel.swift; sourceTree = "<group>"; };
+		FF8E1E2D86FF336D90D5D11D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18F11EFC81347DDC28D31BDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C692EF4A6642DCD156B3489 /* Auth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03FD5B8508AC896DEE48EC5F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				764AC13A5D54641D30C3385B /* TaosDictate.app */,
+				6DA0836B90EF6FF93805E813 /* TaosKeyboard.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E508FBA0F3243B34DE4D579 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				1C8A8B98C535025DCDA8627F /* Info.plist */,
+				B011E9F30A0F3B80F8418793 /* KeyboardViewController.swift */,
+				F6BA46442F5FF86259B3F073 /* TaosKeyboard.entitlements */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		4D8F000ADD29898A32F654D2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				30ADDA1B4BE956400728498B /* Assets.xcassets */,
+				7D630C8A6C33E27392FADD6E /* Info.plist */,
+				A4A9945C75315C71515BD37E /* TaosDictate.entitlements */,
+				7716EFAEF7E49775F997B1D2 /* TaosDictateApp.swift */,
+				1186883962AF277028B228D1 /* InfoPlist.strings */,
+				BF5BA751A5A6A658F3125C86 /* Services */,
+				52CF2F871DF202E7110A19CF /* Views */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		52CF2F871DF202E7110A19CF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BCDADBFDEF5289191958FBF6 /* DecoderView.swift */,
+				69C57D053F6A95367349D183 /* RootView.swift */,
+				109F6583ECDC526C5C9DAD42 /* SettingsView.swift */,
+				E9E10EA0AB6D4FE3CCFAB976 /* SignInView.swift */,
+				9FE330A6FDEA1D3B8D327100 /* SpeakView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BF5BA751A5A6A658F3125C86 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F33F046514D032FAE77A2053 /* AuthManager.swift */,
+				8B7496C5B20C50859913B69C /* ChunkedRecorder.swift */,
+				D2381681BCBC3B390B797B58 /* DictateAPI.swift */,
+				F70C9188FFF2C298CF3F4E95 /* Prefs.swift */,
+				F85F64C97A50ECEC1FDB7976 /* SpeakModel.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D108324C0CB5C7E8BE08FAC5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				D67111C3D5AAE96BB8EECD55 /* Shared.swift */,
+				A5318925819282909AEF1546 /* Localizable.strings */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		EE0BA1BDA7591A8ABB7354F5 = {
+			isa = PBXGroup;
+			children = (
+				4D8F000ADD29898A32F654D2 /* App */,
+				0E508FBA0F3243B34DE4D579 /* Keyboard */,
+				D108324C0CB5C7E8BE08FAC5 /* Shared */,
+				03FD5B8508AC896DEE48EC5F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0691F43AC72EBE2162D9C61F /* TaosDictate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB1D975CDF54471748C10F13 /* Build configuration list for PBXNativeTarget "TaosDictate" */;
+			buildPhases = (
+				FAFB0EBC0AE8E24F86C9A3E2 /* Sources */,
+				AB50158E2F1586D0DA1A2661 /* Resources */,
+				18F11EFC81347DDC28D31BDA /* Frameworks */,
+				E1ADFEE2B388365B4359D3DD /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EDE7EBD5B6010786D37B01F /* PBXTargetDependency */,
+			);
+			name = TaosDictate;
+			packageProductDependencies = (
+				C4E92CED94F515B8C1B93E9A /* Auth */,
+			);
+			productName = TaosDictate;
+			productReference = 764AC13A5D54641D30C3385B /* TaosDictate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1E190BF964286812C718C008 /* TaosKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 080EE5806F3FE1357A77FAFA /* Build configuration list for PBXNativeTarget "TaosKeyboard" */;
+			buildPhases = (
+				C0EAC075F62D73CCA2BC379B /* Sources */,
+				27EAFBAB7B0F3830D11577D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TaosKeyboard;
+			packageProductDependencies = (
+			);
+			productName = TaosKeyboard;
+			productReference = 6DA0836B90EF6FF93805E813 /* TaosKeyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D61FF64D129972CE9A230D62 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					0691F43AC72EBE2162D9C61F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					1E190BF964286812C718C008 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A2B1F08409CB688265CCCBC8 /* Build configuration list for PBXProject "TaosDictate" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				es,
+			);
+			mainGroup = EE0BA1BDA7591A8ABB7354F5;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				840AA5D0DB0B490BF196826B /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 03FD5B8508AC896DEE48EC5F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0691F43AC72EBE2162D9C61F /* TaosDictate */,
+				1E190BF964286812C718C008 /* TaosKeyboard */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		27EAFBAB7B0F3830D11577D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E394A3FDF686F8DDA33C1406 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB50158E2F1586D0DA1A2661 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4848EB6F9460178914DF7073 /* Assets.xcassets in Resources */,
+				0FDFC2C2185DE0637D61AAB6 /* InfoPlist.strings in Resources */,
+				066EAD8EC8FECF636BBBD44A /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C0EAC075F62D73CCA2BC379B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CF05E3A55A627CD503A1D70 /* KeyboardViewController.swift in Sources */,
+				9BCEB3F32DC6AEF8ACA93716 /* Shared.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAFB0EBC0AE8E24F86C9A3E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAE73F6DC234B84D5815A43A /* AuthManager.swift in Sources */,
+				7DC3803B3CA2BE482D8A34EB /* ChunkedRecorder.swift in Sources */,
+				8050451DEFAE1EA9B00C6E93 /* DecoderView.swift in Sources */,
+				546BACCEAAC67FAE821A2A6F /* DictateAPI.swift in Sources */,
+				F957792EA2285893A2AD0A55 /* Prefs.swift in Sources */,
+				6062CFE6D33E84B8988B614F /* RootView.swift in Sources */,
+				E7B0BF870F71EDCE112BE2A6 /* SettingsView.swift in Sources */,
+				16211FA13AB911C02035716C /* Shared.swift in Sources */,
+				C98A1DB7D5631EC55E90C5A7 /* SignInView.swift in Sources */,
+				4EF51CEA465A8D6CABC885E0 /* SpeakModel.swift in Sources */,
+				FF42F5A9507320352101772C /* SpeakView.swift in Sources */,
+				320FBD7E7B5FE77288A21B90 /* TaosDictateApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8EDE7EBD5B6010786D37B01F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E190BF964286812C718C008 /* TaosKeyboard */;
+			targetProxy = 20D17C6F02D9495BE0BC4CC2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1186883962AF277028B228D1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EB7520B3FF191694A67DB571 /* en */,
+				A615055020C21F51BC2074B1 /* es */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5318925819282909AEF1546 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3F686A3ED9B0CCDB21CCCBB0 /* en */,
+				FF8E1E2D86FF336D90D5D11D /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		375F12F5E0B3C9CFBB3C9C35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/TaosDictate.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taoslite.dictate;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		41C247D1026F0EC702DAFD31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/TaosDictate.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taoslite.dictate;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		514981BA3F01F7C03FB684D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Keyboard/TaosKeyboard.entitlements;
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taoslite.dictate.keyboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5A8C576BFA5236702682A61D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Keyboard/TaosKeyboard.entitlements;
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taoslite.dictate.keyboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5D7C2AE73F42E76111A1789D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		7E41EED8A9D966D707560EF5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		080EE5806F3FE1357A77FAFA /* Build configuration list for PBXNativeTarget "TaosKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				514981BA3F01F7C03FB684D5 /* Debug */,
+				5A8C576BFA5236702682A61D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A2B1F08409CB688265CCCBC8 /* Build configuration list for PBXProject "TaosDictate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E41EED8A9D966D707560EF5 /* Debug */,
+				5D7C2AE73F42E76111A1789D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FB1D975CDF54471748C10F13 /* Build configuration list for PBXNativeTarget "TaosDictate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41C247D1026F0EC702DAFD31 /* Debug */,
+				375F12F5E0B3C9CFBB3C9C35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		840AA5D0DB0B490BF196826B /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C4E92CED94F515B8C1B93E9A /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 840AA5D0DB0B490BF196826B /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D61FF64D129972CE9A230D62 /* Project object */;
+}
