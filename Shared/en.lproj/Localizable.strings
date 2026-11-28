@@ -100,3 +100,15 @@
 "settings.dialect" = "Dialect";
 "settings.dialect_none" = "Not set";
 "settings.dialect_help" = "Pick where each language is from. TAOS reads messages with the meaning words have there — in Venezuela “arrecho” means angry — and writes in words a reader from there uses. Sayings are translated by what they mean.";
+
+"mac.signin_title" = "Sign in to TAOS";
+"mac.allow_typing" = "Allow TAOS to type for you…";
+"mac.style" = "Style";
+"mac.settings" = "Settings…";
+"mac.sign_in" = "Sign in…";
+"mac.quit" = "Quit TAOS";
+"mac.hold_hint" = "Hold Right ⌥ and talk — let go to type it";
+"mac.listening" = "Listening — let go to finish";
+"mac.sign_in_first" = "Sign in first (menu › Sign in…)";
+"mac.copied_instead" = "Copied — press ⌘V. Allow TAOS to type for you to skip this.";
+"mac.hud_listening" = "Listening…";

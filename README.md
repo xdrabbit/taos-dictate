@@ -33,3 +33,15 @@ open TaosDictate.xcodeproj
 The keyboard sets `RequestsOpenAccess = true`. Apple's custom keyboard guide lists the shared container with the containing app as available only with open access. Without it the keyboard can't read the last dictation, and it says so on screen. The keyboard has no network code and no microphone.
 
 The **Dictate** key opens the app by walking the responder chain to `UIApplication` and calling the public `open(_:options:)`. Keyboards have no supported API for this. If iOS blocks it, the keyboard tells the user to open the app themselves.
+
+## Mac: hold to talk (TaosMac target)
+
+A menu bar app. Hold **Right Option**, talk, let go, and the text is typed where the cursor is. It uses the same TAOS account, styles, Our words and dialects as the phone.
+
+- **Build:** `xcodebuild -scheme TaosMac -destination 'platform=macOS,arch=arm64' -derivedDataPath build build`
+- **Install:** copy `build/Build/Products/Debug/TaosMac.app` to `/Applications/TAOS.app`. A fixed location keeps the permissions.
+- **Permissions, asked once:**
+  - Microphone, on the first hold.
+  - Accessibility, from the menu item "Allow TAOS to type for you…". Accessibility lets TAOS see the key from any app and press ⌘V.
+- **Cancelling:** pressing any other key while holding Right Option cancels, so ⌥-shortcuts still work.
+- **Not sandboxed**, because pasting into other apps needs Accessibility. No App Group: the Mac keeps its own settings.
