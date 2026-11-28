@@ -90,3 +90,9 @@
 "session.decoding" = "Descifrando…"; // pendiente de revisión por Liz
 "session.decoded" = "Descifrado"; // pendiente de revisión por Liz
 "session.explain_decode" = "Vuelve a tu app con ◀ arriba a la izquierda — el significado te espera en el teclado TAOS. Toca Responder allí para contestar en tu idioma."; // pendiente de revisión por Liz
+
+"words.title" = "Nuestras palabras"; // pendiente de revisión por Liz
+"words.footer" = "Nombres y palabras que TAOS debe escribir a tu manera — como Lu, no Lou."; // pendiente de revisión por Liz
+"words.placeholder" = "Agrega un nombre o palabra"; // pendiente de revisión por Liz
+"words.add" = "Agregar"; // pendiente de revisión por Liz
+"words.help" = "Escribe cada una tal como la escribes tú. TAOS las usa al escuchar, escribir y descifrar — y nunca las traduce. Se quedan en este teléfono y viajan con cada solicitud; no se guarda nada en el servidor. Desliza a la izquierda para quitar una."; // pendiente de revisión por Liz

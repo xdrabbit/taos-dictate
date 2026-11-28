@@ -195,6 +195,13 @@ enum SharedPrefs {
         set { d.set(newValue, forKey: "taos.dictate.target") }
     }
 
+    /// "Our words": names and words spelled the user's way ("Lu", not "Lou").
+    /// Sent with every request; the server uses them as a spelling hint.
+    static var words: [String] {
+        get { d.stringArray(forKey: "taos.dictate.words") ?? [] }
+        set { d.set(newValue, forKey: "taos.dictate.words") }
+    }
+
     static let languageCodes = ["en", "es", "fr", "pt", "it", "de"]
     private static var deviceLanguage: String {
         let code = Locale.preferredLanguages.first

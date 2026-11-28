@@ -105,6 +105,7 @@ struct DictateAPI {
         form.add("source", source)
         form.add("style", style.rawValue)
         form.add("target", target ?? "same")
+        form.addWords()
         if let prior {
             let json = try JSONEncoder().encode(prior)
             form.add("prior", String(decoding: json, as: UTF8.self))
@@ -120,6 +121,7 @@ struct DictateAPI {
         try form.addFile(name: "audio", url: audio)
         form.add("source", source)
         form.add("chunk_part", "1")
+        form.addWords()
         form.add("chunk_index", String(index))
         form.add("chunk_ms", String(ms))
         return try await send(form: form, timeout: 210)
@@ -127,12 +129,14 @@ struct DictateAPI {
 
     /// 3. Same words, another style or language.
     func restyle(raw: String, style: DictateStyle, source: String, target: String?) async throws -> DictateResult {
-        try await send(json: ["raw": raw, "style": style.rawValue, "source": source, "target": target ?? "same"], timeout: 160)
+        try await send(json: ["raw": raw, "style": style.rawValue, "source": source, "target": target ?? "same",
+                              "words": SharedPrefs.words], timeout: 160)
     }
 
     /// 4. Decoder.
     func decode(raw: String, reader: String, other: String) async throws -> DecodeResult {
-        try await send(json: ["mode": "decode", "raw": raw, "reader": reader, "other": other], timeout: 90)
+        try await send(json: ["mode": "decode", "raw": raw, "reader": reader, "other": other,
+                              "words": SharedPrefs.words], timeout: 90)
     }
 
     // MARK: Transport
@@ -145,8 +149,8 @@ struct DictateAPI {
         }
     }
 
-    private func send<T: Decodable>(json: [String: String], timeout: TimeInterval) async throws -> T {
-        let body = try JSONEncoder().encode(json)
+    private func send<T: Decodable>(json: [String: Any], timeout: TimeInterval) async throws -> T {
+        let body = try JSONSerialization.data(withJSONObject: json)
         return try await perform(timeout: timeout) { req in
             req.setValue("application/json", forHTTPHeaderField: "Content-Type")
             req.httpBody = body
@@ -217,6 +221,13 @@ struct MultipartForm {
     }
 
     /// The contract asks for a filename and type that match the audio: `audio.m4a` / `audio/mp4`.
+    /// "Our words", as the JSON string the contract asks for. Omitted when empty.
+    mutating func addWords() {
+        let words = SharedPrefs.words
+        guard !words.isEmpty, let json = try? JSONSerialization.data(withJSONObject: words) else { return }
+        add("words", String(decoding: json, as: UTF8.self))
+    }
+
     mutating func addFile(name: String, url: URL) throws {
         let bytes = try Data(contentsOf: url)
         data.append("--\(boundary)\r\nContent-Disposition: form-data; name=\"\(name)\"; filename=\"audio.m4a\"\r\nContent-Type: audio/mp4\r\n\r\n")
