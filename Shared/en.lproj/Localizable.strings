@@ -90,3 +90,9 @@
 "session.decoding" = "Decoding…";
 "session.decoded" = "Decoded";
 "session.explain_decode" = "Go back to your app with ◀ at the top left — the meaning is waiting on the TAOS keyboard. Tap Reply there to answer in your language.";
+
+"words.title" = "Our words";
+"words.footer" = "Names and words TAOS should spell your way — like Lu, not Lou.";
+"words.placeholder" = "Add a name or word";
+"words.add" = "Add";
+"words.help" = "Type each one exactly as you spell it. TAOS uses them when it listens, writes and decodes — and never translates them. They stay on this phone and go with each request; nothing is saved on the server. Swipe left to remove one.";
