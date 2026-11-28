@@ -5,18 +5,21 @@ struct SettingsView: View {
     @State private var mine = Prefs.myLanguage
     @State private var other = Prefs.otherLanguage
     @State private var wordCount = SharedPrefs.words.count
+    @State private var dialects = SharedPrefs.dialects
 
     var body: some View {
         NavigationStack {
             Form {
-                Section(L("settings.languages")) {
+                Section {
                     Picker(L("settings.my_language"), selection: $mine) {
                         ForEach(Language.all) { Text($0.label).tag($0.code) }
                     }
+                    dialectPicker(for: mine)
                     Picker(L("settings.other_language"), selection: $other) {
                         ForEach(Language.all.filter { $0.code != mine }) { Text($0.label).tag($0.code) }
                     }
-                }
+                    dialectPicker(for: other)
+                } header: { Text(L("settings.languages")) } footer: { Text(L("settings.dialect_help")) }
                 Section {
                     NavigationLink {
                         OurWordsView()
@@ -42,6 +45,23 @@ struct SettingsView: View {
                 if other == v { other = v == "es" ? "en" : "es" }
             }
             .onChange(of: other) { _, v in Prefs.otherLanguage = v }
+            .onChange(of: dialects) { _, v in SharedPrefs.dialects = v }
+        }
+    }
+
+    /// "Dialect" under a language, when the server knows regions for it.
+    @ViewBuilder private func dialectPicker(for language: String) -> some View {
+        if let regions = SharedPrefs.dialectRegions[language] {
+            Picker(L("settings.dialect"), selection: Binding(
+                get: { dialects[language] ?? "" },
+                set: { dialects[language] = $0.isEmpty ? nil : $0 }
+            )) {
+                Text(L("settings.dialect_none")).tag("")
+                ForEach(regions, id: \.self) { region in
+                    Text(Locale.current.localizedString(forRegionCode: region) ?? region).tag(region)
+                }
+            }
+            .padding(.leading, 16)
         }
     }
 }

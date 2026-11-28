@@ -96,3 +96,7 @@
 "words.placeholder" = "Add a name or word";
 "words.add" = "Add";
 "words.help" = "Type each one exactly as you spell it. TAOS uses them when it listens, writes and decodes — and never translates them. They stay on this phone and go with each request; nothing is saved on the server. Swipe left to remove one.";
+
+"settings.dialect" = "Dialect";
+"settings.dialect_none" = "Not set";
+"settings.dialect_help" = "Pick where each language is from. TAOS reads messages with the meaning words have there — in Venezuela “arrecho” means angry — and writes in words a reader from there uses. Sayings are translated by what they mean.";

@@ -96,3 +96,7 @@
 "words.placeholder" = "Agrega un nombre o palabra"; // pendiente de revisión por Liz
 "words.add" = "Agregar"; // pendiente de revisión por Liz
 "words.help" = "Escribe cada una tal como la escribes tú. TAOS las usa al escuchar, escribir y descifrar — y nunca las traduce. Se quedan en este teléfono y viajan con cada solicitud; no se guarda nada en el servidor. Desliza a la izquierda para quitar una."; // pendiente de revisión por Liz
+
+"settings.dialect" = "Variante"; // pendiente de revisión por Liz
+"settings.dialect_none" = "Sin elegir"; // pendiente de revisión por Liz
+"settings.dialect_help" = "Elige de dónde es cada idioma. TAOS lee los mensajes con el sentido que tienen las palabras allí — en Venezuela «arrecho» significa enojado — y escribe con palabras que usa un lector de allí. Los refranes se traducen por lo que quieren decir."; // pendiente de revisión por Liz
