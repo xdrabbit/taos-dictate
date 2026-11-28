@@ -202,6 +202,22 @@ enum SharedPrefs {
         set { d.set(newValue, forKey: "taos.dictate.words") }
     }
 
+    /// Dialect per language as region codes ({"es": "VE"}). The server's table
+    /// (taos-lite lib/dictate/dialect.ts) decides what each code means.
+    static var dialects: [String: String] {
+        get { d.dictionary(forKey: "taos.dictate.dialects") as? [String: String] ?? [:] }
+        set { d.set(newValue, forKey: "taos.dictate.dialects") }
+    }
+
+    /// The regions the server knows, per language. Keep in step with dialect.ts.
+    static let dialectRegions: [String: [String]] = [
+        "es": ["VE", "CO", "MX", "AR", "CL", "PE", "CU", "PR", "DO", "US", "ES"],
+        "en": ["US", "GB", "AU", "CA", "IE"],
+        "pt": ["BR", "PT"],
+        "fr": ["FR", "CA"],
+        "de": ["DE", "AT", "CH"]
+    ]
+
     static let languageCodes = ["en", "es", "fr", "pt", "it", "de"]
     private static var deviceLanguage: String {
         let code = Locale.preferredLanguages.first

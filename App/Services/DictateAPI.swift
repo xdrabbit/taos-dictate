@@ -106,6 +106,7 @@ struct DictateAPI {
         form.add("style", style.rawValue)
         form.add("target", target ?? "same")
         form.addWords()
+        form.addDialects()
         if let prior {
             let json = try JSONEncoder().encode(prior)
             form.add("prior", String(decoding: json, as: UTF8.self))
@@ -122,6 +123,7 @@ struct DictateAPI {
         form.add("source", source)
         form.add("chunk_part", "1")
         form.addWords()
+        form.addDialects()
         form.add("chunk_index", String(index))
         form.add("chunk_ms", String(ms))
         return try await send(form: form, timeout: 210)
@@ -130,13 +132,13 @@ struct DictateAPI {
     /// 3. Same words, another style or language.
     func restyle(raw: String, style: DictateStyle, source: String, target: String?) async throws -> DictateResult {
         try await send(json: ["raw": raw, "style": style.rawValue, "source": source, "target": target ?? "same",
-                              "words": SharedPrefs.words], timeout: 160)
+                              "words": SharedPrefs.words, "dialects": SharedPrefs.dialects], timeout: 160)
     }
 
     /// 4. Decoder.
     func decode(raw: String, reader: String, other: String) async throws -> DecodeResult {
         try await send(json: ["mode": "decode", "raw": raw, "reader": reader, "other": other,
-                              "words": SharedPrefs.words], timeout: 90)
+                              "words": SharedPrefs.words, "dialects": SharedPrefs.dialects], timeout: 90)
     }
 
     // MARK: Transport
@@ -226,6 +228,13 @@ struct MultipartForm {
         let words = SharedPrefs.words
         guard !words.isEmpty, let json = try? JSONSerialization.data(withJSONObject: words) else { return }
         add("words", String(decoding: json, as: UTF8.self))
+    }
+
+    /// Dialects, as the JSON string the contract asks for. Omitted when none set.
+    mutating func addDialects() {
+        let dialects = SharedPrefs.dialects
+        guard !dialects.isEmpty, let json = try? JSONSerialization.data(withJSONObject: dialects) else { return }
+        add("dialects", String(decoding: json, as: UTF8.self))
     }
 
     mutating func addFile(name: String, url: URL) throws {
