@@ -5,15 +5,19 @@ import AVFoundation
 ///
 /// It meters the input level (AVAudioRecorder metering) and learns the room's
 /// noise floor. A piece closes after a pause of `pauseSeconds` once it holds at
-/// least `minSpeechSeconds` of speech, or at `maxPieceSeconds` regardless. A
+/// least `minSpeechSeconds` of speech (only a breath once the piece is past
+/// `longPieceSeconds`), or at `maxPieceSeconds` regardless. A
 /// stretch with no speech in it is thrown away, never uploaded.
 @MainActor
 final class LiveRecorder: NSObject, AVAudioRecorderDelegate {
     struct Piece { let url: URL; let ms: Int }
 
     static let pauseSeconds: TimeInterval = 0.8
+    /// Non-stop talk (TV, a lecture): past this length, a breath is pause enough.
+    static let longPieceSeconds: TimeInterval = 6
+    static let breathSeconds: TimeInterval = 0.35
     static let minSpeechSeconds: TimeInterval = 1.0
-    static let maxPieceSeconds: TimeInterval = 25
+    static let maxPieceSeconds: TimeInterval = 15
     /// Silence-only stretches are dropped at this length and listening goes on.
     static let maxQuietSeconds: TimeInterval = 30
 
@@ -78,7 +82,8 @@ final class LiveRecorder: NSObject, AVAudioRecorderDelegate {
         if talking { speech += step; quietRun = 0 } else { quietRun += step }
         let length = Date().timeIntervalSince(pieceStarted)
 
-        if speech >= Self.minSpeechSeconds && quietRun >= Self.pauseSeconds {
+        let pause = length >= Self.longPieceSeconds ? Self.breathSeconds : Self.pauseSeconds
+        if speech >= Self.minSpeechSeconds && quietRun >= pause {
             cut(send: true)
         } else if length >= Self.maxPieceSeconds && speech > 0.4 {
             cut(send: true)
