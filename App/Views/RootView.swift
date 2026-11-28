@@ -3,6 +3,7 @@ import SwiftUI
 struct RootView: View {
     @ObservedObject var auth: AuthManager
     @StateObject private var speak: SpeakModel
+    @StateObject private var live: LiveModel
     @State private var tab: String = Prefs.tab
     @ObservedObject private var session = KeyboardSession.shared
 
@@ -10,6 +11,7 @@ struct RootView: View {
         self.auth = auth
         let api = DictateAPI(tokens: auth.tokenProvider)
         _speak = StateObject(wrappedValue: SpeakModel(api: api, onSignedOut: { [weak auth] in auth?.sessionRejected() }))
+        _live = StateObject(wrappedValue: LiveModel(api: api, onSignedOut: { [weak auth] in auth?.sessionRejected() }))
         KeyboardSession.shared.api = api
     }
 
@@ -18,6 +20,9 @@ struct RootView: View {
             SpeakView(model: speak)
                 .tabItem { Label(L("tab.speak"), systemImage: "mic.fill") }
                 .tag("speak")
+            LiveView(model: live)
+                .tabItem { Label(L("tab.live"), systemImage: "waveform") }
+                .tag("live")
             DecoderView(api: DictateAPI(tokens: auth.tokenProvider), onSignedOut: auth.sessionRejected)
                 .tabItem { Label(L("tab.decoder"), systemImage: "text.magnifyingglass") }
                 .tag("decode")

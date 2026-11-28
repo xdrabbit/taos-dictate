@@ -100,3 +100,31 @@
 "settings.dialect" = "Variante"; // pendiente de revisión por Liz
 "settings.dialect_none" = "Sin elegir"; // pendiente de revisión por Liz
 "settings.dialect_help" = "Elige de dónde es cada idioma. TAOS lee los mensajes con el sentido que tienen las palabras allí — en Venezuela «arrecho» significa enojado — y escribe con palabras que usa un lector de allí. Los refranes se traducen por lo que quieren decir."; // pendiente de revisión por Liz
+
+/* Live notes — pendiente de revisión por Liz */
+"tab.live" = "En vivo";
+"live.intro" = "Deja que TAOS escuche: una cena, una reunión, una clase. Después de cada pausa verás lo que se dijo y su traducción. Pulsa detener y se guarda como una nota con resumen.";
+"live.me" = "Yo";
+"live.them" = "Ellos";
+"live.same_language" = "Igual (solo notas)";
+"live.save_online" = "Guardar también en taoslite.com";
+"live.save_online_help" = "Solo el texto, nunca el audio. Lo encuentras en En vivo › Guardadas en la web.";
+"live.last_note" = "ÚLTIMA NOTA";
+"live.notes" = "Notas";
+"live.start" = "Empezar a escuchar";
+"live.stop" = "Detener y guardar notas";
+"live.tap_to_start" = "Pulsa para empezar a escuchar";
+"live.listening_for" = "Escuchando · %@ — pulsa para detener";
+"live.writing_notes" = "Escribiendo tus notas…";
+"live.catching_up" = "Poniéndose al día…";
+"live.piece_failed" = "No se pudo oír una parte. Sigo escuchando.";
+"live.summary_failed" = "El resumen no llegó. Tu nota está guardada; vuelve a intentarlo desde la nota.";
+"live.summarize_again" = "Escribir el resumen";
+"live.untitled" = "Nota en vivo";
+"live.transcript" = "TRANSCRIPCIÓN";
+"live.line_count" = "%d líneas";
+"live.no_notes" = "Todavía no hay notas";
+"live.no_notes_help" = "Empieza En vivo y tus conversaciones aparecerán aquí.";
+"live.search" = "Buscar en notas";
+"live.delete" = "Borrar nota";
+"live.delete_confirm" = "¿Borrar esta nota de este iPhone?";
