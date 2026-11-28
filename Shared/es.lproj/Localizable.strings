@@ -100,3 +100,15 @@
 "settings.dialect" = "Variante"; // pendiente de revisión por Liz
 "settings.dialect_none" = "Sin elegir"; // pendiente de revisión por Liz
 "settings.dialect_help" = "Elige de dónde es cada idioma. TAOS lee los mensajes con el sentido que tienen las palabras allí — en Venezuela «arrecho» significa enojado — y escribe con palabras que usa un lector de allí. Los refranes se traducen por lo que quieren decir."; // pendiente de revisión por Liz
+
+"mac.signin_title" = "Inicia sesión en TAOS"; // pendiente de revisión por Liz
+"mac.allow_typing" = "Permitir que TAOS escriba por ti…"; // pendiente de revisión por Liz
+"mac.style" = "Estilo"; // pendiente de revisión por Liz
+"mac.settings" = "Ajustes…"; // pendiente de revisión por Liz
+"mac.sign_in" = "Iniciar sesión…"; // pendiente de revisión por Liz
+"mac.quit" = "Salir de TAOS"; // pendiente de revisión por Liz
+"mac.hold_hint" = "Mantén ⌥ derecha y habla — suelta para escribirlo"; // pendiente de revisión por Liz
+"mac.listening" = "Escuchando — suelta para terminar"; // pendiente de revisión por Liz
+"mac.sign_in_first" = "Primero inicia sesión (menú › Iniciar sesión…)"; // pendiente de revisión por Liz
+"mac.copied_instead" = "Copiado — pulsa ⌘V. Permite que TAOS escriba por ti para evitar este paso."; // pendiente de revisión por Liz
+"mac.hud_listening" = "Escuchando…"; // pendiente de revisión por Liz

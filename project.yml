@@ -5,6 +5,7 @@ options:
   bundleIdPrefix: com.taoslite
   deploymentTarget:
     iOS: "17.0"
+    macOS: "14.0"
   developmentLanguage: en
   createIntermediateGroups: true
 
@@ -101,3 +102,38 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(TAOS_BUNDLE_ID).keyboard
         APPLICATION_EXTENSION_API_ONLY: YES
+
+  # Menu bar app for the Mac: hold Right Option, talk, let go — typed where the cursor is.
+  TaosMac:
+    type: application
+    platform: macOS
+    sources:
+      - path: Mac
+      - path: Shared
+      - path: App/Services/DictateAPI.swift
+      - path: App/Services/AuthManager.swift
+    dependencies:
+      - package: Supabase
+        product: Auth
+    entitlements:
+      path: Mac/TaosMac.entitlements
+      properties:
+        # Hardened runtime needs this to use the microphone. Not sandboxed:
+        # pasting into other apps needs Accessibility, which the sandbox blocks.
+        com.apple.security.device.audio-input: true
+    info:
+      path: Mac/Info.plist
+      properties:
+        CFBundleDisplayName: TAOS
+        # Menu bar only: no Dock icon.
+        LSUIElement: true
+        # No App Group on the Mac; this is just the name of its own settings file.
+        TaosAppGroup: $(TAOS_BUNDLE_ID).mac
+        TaosDictateURL: $(TAOS_DICTATE_URL)
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, es]
+        NSMicrophoneUsageDescription: "TAOS records your voice while you hold the talk key, so it can type what you say."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(TAOS_BUNDLE_ID).mac
+        ENABLE_HARDENED_RUNTIME: YES
