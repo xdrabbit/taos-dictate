@@ -100,3 +100,31 @@
 "settings.dialect" = "Dialect";
 "settings.dialect_none" = "Not set";
 "settings.dialect_help" = "Pick where each language is from. TAOS reads messages with the meaning words have there — in Venezuela “arrecho” means angry — and writes in words a reader from there uses. Sayings are translated by what they mean.";
+
+/* Live notes */
+"tab.live" = "Live";
+"live.intro" = "Let TAOS listen to the room — a dinner, a meeting, a class. After each pause you'll see what was said and its translation. Tap stop and it's kept as a note with a summary.";
+"live.me" = "Me";
+"live.them" = "Them";
+"live.same_language" = "Same (notes only)";
+"live.save_online" = "Also save at taoslite.com";
+"live.save_online_help" = "Text only, never audio. You'll find it under Live › Saved on the website.";
+"live.last_note" = "LAST NOTE";
+"live.notes" = "Notes";
+"live.start" = "Start listening";
+"live.stop" = "Stop and keep notes";
+"live.tap_to_start" = "Tap to start listening";
+"live.listening_for" = "Listening · %@ — tap to stop";
+"live.writing_notes" = "Writing your notes…";
+"live.catching_up" = "Catching up…";
+"live.piece_failed" = "A piece couldn't be heard. Still listening.";
+"live.summary_failed" = "The summary didn't come through. Your note is saved; try the summary again from the note.";
+"live.summarize_again" = "Write the summary";
+"live.untitled" = "Live note";
+"live.transcript" = "TRANSCRIPT";
+"live.line_count" = "%d lines";
+"live.no_notes" = "No notes yet";
+"live.no_notes_help" = "Start Live and your conversations show up here.";
+"live.search" = "Search notes";
+"live.delete" = "Delete note";
+"live.delete_confirm" = "Delete this note from this iPhone?";

@@ -51,6 +51,23 @@ enum PriorChunk: Encodable {
     }
 }
 
+/// Live notes: one heard piece (contract §5).
+struct LivePieceResult: Decodable, Equatable {
+    let heard: String
+    let heardLang: String
+    let text: String
+    let textLang: String
+}
+
+/// Live notes: the end-of-session summary (contract §6).
+struct LiveSummaryResult: Decodable, Equatable {
+    let title: String
+    let summary: String
+    let points: [String]
+}
+
+private struct OK: Decodable { let ok: Bool? }
+
 struct DecodeResult: Decodable, Equatable {
     let raw: String
     let cleaned: String
@@ -141,37 +158,65 @@ struct DictateAPI {
                               "words": SharedPrefs.words, "dialects": SharedPrefs.dialects], timeout: 90)
     }
 
+    /// 5. Live notes: one piece of a room, cut at a pause.
+    func live(audio: URL, mine: String, theirs: String, context: String) async throws -> LivePieceResult {
+        var form = MultipartForm()
+        try form.addFile(name: "audio", url: audio)
+        form.add("mode", "live")
+        form.add("mine", mine)
+        form.add("theirs", theirs)
+        if !context.isEmpty { form.add("context", String(context.suffix(600))) }
+        form.addWords()
+        form.addDialects()
+        return try await send(form: form, timeout: 90)
+    }
+
+    /// 6. Live notes: title, summary and key points, written for `reader`.
+    func summarize(transcript: String, reader: String) async throws -> LiveSummaryResult {
+        try await send(json: ["mode": "summarize", "raw": String(transcript.suffix(60_000)), "reader": reader],
+                       timeout: 120)
+    }
+
+    /// Keep one Live line in the TAOS saved store (shows at taoslite.com/live/saved). Text only.
+    func saveLiveLine(_ body: [String: Any]) async throws {
+        let url = URL(string: "/api/live/saved/lines", relativeTo: TaosConfig.dictateURL)!.absoluteURL
+        let _: OK = try await send(json: body, timeout: 20, url: url)
+    }
+
     // MARK: Transport
 
     private func send<T: Decodable>(form: MultipartForm, timeout: TimeInterval) async throws -> T {
         let body = form.finish()
-        return try await perform(timeout: timeout) { req in
+        return try await perform(timeout: timeout, url: TaosConfig.dictateURL) { req in
             req.setValue(form.contentType, forHTTPHeaderField: "Content-Type")
             req.httpBody = body
         }
     }
 
-    private func send<T: Decodable>(json: [String: Any], timeout: TimeInterval) async throws -> T {
+    private func send<T: Decodable>(json: [String: Any], timeout: TimeInterval,
+                                    url: URL = TaosConfig.dictateURL) async throws -> T {
         let body = try JSONSerialization.data(withJSONObject: json)
-        return try await perform(timeout: timeout) { req in
+        return try await perform(timeout: timeout, url: url) { req in
             req.setValue("application/json", forHTTPHeaderField: "Content-Type")
             req.httpBody = body
         }
     }
 
     /// One attempt with 401 → refresh → retry once, plus one retry on 502/504/network.
-    private func perform<T: Decodable>(timeout: TimeInterval, configure: (inout URLRequest) -> Void) async throws -> T {
+    private func perform<T: Decodable>(timeout: TimeInterval, url: URL,
+                                       configure: (inout URLRequest) -> Void) async throws -> T {
         do {
-            return try await attempt(timeout: timeout, configure: configure)
+            return try await attempt(timeout: timeout, url: url, configure: configure)
         } catch let e as DictateError where e.retryable {
-            return try await attempt(timeout: timeout, configure: configure)
+            return try await attempt(timeout: timeout, url: url, configure: configure)
         }
     }
 
-    private func attempt<T: Decodable>(timeout: TimeInterval, configure: (inout URLRequest) -> Void) async throws -> T {
-        var (data, status) = try await raw(timeout: timeout, forceRefresh: false, configure: configure)
+    private func attempt<T: Decodable>(timeout: TimeInterval, url: URL,
+                                       configure: (inout URLRequest) -> Void) async throws -> T {
+        var (data, status) = try await raw(timeout: timeout, url: url, forceRefresh: false, configure: configure)
         if status == 401 {
-            (data, status) = try await raw(timeout: timeout, forceRefresh: true, configure: configure)
+            (data, status) = try await raw(timeout: timeout, url: url, forceRefresh: true, configure: configure)
             if status == 401 { throw DictateError.signedOut }
         }
         guard (200..<300).contains(status) else { throw Self.error(status: status, data: data) }
@@ -182,12 +227,12 @@ struct DictateAPI {
         }
     }
 
-    private func raw(timeout: TimeInterval, forceRefresh: Bool,
+    private func raw(timeout: TimeInterval, url: URL, forceRefresh: Bool,
                      configure: (inout URLRequest) -> Void) async throws -> (Data, Int) {
         let token: String
         do { token = try await tokens.accessToken(forceRefresh: forceRefresh) }
         catch { throw DictateError.signedOut }
-        var req = URLRequest(url: TaosConfig.dictateURL, timeoutInterval: timeout)
+        var req = URLRequest(url: url, timeoutInterval: timeout)
         req.httpMethod = "POST"
         req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         configure(&req)
